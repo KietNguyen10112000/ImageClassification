@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include "SoftmaxRegression.h"
+#include "MultiLayerNeuralNet.h"
 
 using namespace std;
 
@@ -45,7 +46,7 @@ int main()
 		}
 		yTrain[i] = count;
 	}
-	SoftmaxRegression softModel = SoftmaxRegression(2, 5);
+	/*SoftmaxRegression softModel = SoftmaxRegression(2, 5);
 
 	softModel.fit<float>(xTrain, yTrain, 10000, 0.05, 10, pow(10,-8));
 
@@ -57,9 +58,43 @@ int main()
 		{
 			ct++;
 		}
+	}*/
+
+	
+
+	/*SoftmaxRegression model = SoftmaxRegression(2, 5);
+
+	model.fit<float>(xTrain, yTrain, 10000, 0.05, 10, 1e-8);*/
+	int max = 0;
+	int index = 0;
+	for (int k = 2; k < 100; k++)
+	{
+		vector<int> layersDisc = { k,5 };
+		MultiLayerNeuralNet model = MultiLayerNeuralNet<float>(xTrain[0].size(), layersDisc);
+		model.fit(xTrain, yTrain, 10000, 0.05, 5, 1e-8);
+		int ct = 0;
+		for (int i = 0; i < 2500; i++)
+		{
+			int re = model.predict(xTrain[i]);
+			if (re == yTrain[i])
+			{
+				ct++;
+			}
+		}
+		if (ct > max)
+		{
+			max = ct;
+			index = k;
+		}
 	}
 
-	cout << ct << endl;
+	
+
+	//cout << ct << endl;
+	//
+	//cout << "haha" << endl;
+	//VectorLayerReLU<float> reLu = VectorLayerReLU<float>(1, 2, false);
+	//cout << reLu.activeFunc(10) << endl;
 
 	return 0;
 }

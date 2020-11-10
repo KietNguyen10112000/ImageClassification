@@ -1,5 +1,9 @@
 #pragma once
-class Calulator
+#include <algorithm> 
+
+using namespace std;
+
+class Calculator
 {
 public:
 	//the result will be put to outMtReasult, you need to allocate it by yourself !!!
@@ -19,10 +23,13 @@ public:
 
 	template<typename T = float, typename P = double>
 	static void transposeMatrix(T** mt, int row, int col, P** outMtResult);
+
+	static void shuffle(int* index, int size, int range);
+
 };
 
 template<typename T, typename P>
-void Calulator::mulMatrix(T** mt1, int row1, int col1, P** mt2, int row2, int col2, P** outMtResult)
+void Calculator::mulMatrix(T** mt1, int row1, int col1, P** mt2, int row2, int col2, P** outMtResult)
 {
 	if(col1 != row2) return;
 
@@ -41,7 +48,7 @@ void Calulator::mulMatrix(T** mt1, int row1, int col1, P** mt2, int row2, int co
 }
 
 template<typename T>
-void Calulator::mulMatrix(T** mt, int row, int col, T coef, T** outMtResult)
+void Calculator::mulMatrix(T** mt, int row, int col, T coef, T** outMtResult)
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -53,7 +60,7 @@ void Calulator::mulMatrix(T** mt, int row, int col, T coef, T** outMtResult)
 }
 
 template<typename T>
-void Calulator::sumMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int col2, T** outMtResult)
+void Calculator::sumMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int col2, T** outMtResult)
 {
 	if (col1 != col2) return;
 	if (row1 != row2) return;
@@ -67,7 +74,7 @@ void Calulator::sumMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int co
 }
 
 template<typename T>
-void Calulator::subMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int col2, T** outMtResult)
+void Calculator::subMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int col2, T** outMtResult)
 {
 	if (col1 != col2) return;
 	if (row1 != row2) return;
@@ -94,7 +101,7 @@ void Calulator::subMatrix(T** mt1, int row1, int col1, T** mt2, int row2, int co
 }
 
 template<typename T, typename P>
-void Calulator::transposeMatrix(T** mt, int row, int col, P** outMtResult)
+void Calculator::transposeMatrix(T** mt, int row, int col, P** outMtResult)
 {
 	for (int i = 0; i < row; i++)
 	{
@@ -102,5 +109,12 @@ void Calulator::transposeMatrix(T** mt, int row, int col, P** outMtResult)
 		{
 			outMtResult[j][i] = mt[i][j];
 		}
+	}
+}
+void Calculator::shuffle(int* index, int size, int range)
+{
+	for (int i = 0; i < size; i++)
+	{
+		index[i] = rand() % range;
 	}
 }

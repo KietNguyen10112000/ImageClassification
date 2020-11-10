@@ -152,8 +152,11 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calulator.h" />
+    <ClInclude Include="Calculator.h" />
+    <ClInclude Include="MultiLayerNeuralNet.h" />
     <ClInclude Include="SoftmaxRegression.h" />
+    <ClInclude Include="AbstractVectorLayer.h" />
+    <ClInclude Include="VectorLayerReLU.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

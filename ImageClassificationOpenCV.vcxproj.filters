@@ -16,6 +16,9 @@
     <Filter Include="Source Files\ClassificationAlgorithm">
       <UniqueIdentifier>{207c5309-b98e-4aef-999f-01595943bd0f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ClassificationAlgorithm\MLNN">
+      <UniqueIdentifier>{e2ac8e62-42ab-4c6d-9b3e-6e2986900983}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -26,11 +29,20 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Calulator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SoftmaxRegression.h">
       <Filter>Source Files\ClassificationAlgorithm</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiLayerNeuralNet.h">
+      <Filter>Source Files\ClassificationAlgorithm\MLNN</Filter>
+    </ClInclude>
+    <ClInclude Include="VectorLayerReLU.h">
+      <Filter>Source Files\ClassificationAlgorithm\MLNN</Filter>
+    </ClInclude>
+    <ClInclude Include="AbstractVectorLayer.h">
+      <Filter>Source Files\ClassificationAlgorithm\MLNN</Filter>
+    </ClInclude>
+    <ClInclude Include="Calculator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

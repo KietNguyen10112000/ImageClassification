@@ -101,7 +101,7 @@ void SoftmaxRegression::updateWeights(double leaningRate, int* index, int size, 
 		//xB[i] = (xTrain[index[i]]);
 	}
 
-	vector<vector<double>> eT(w.size(), vector<double>(size));
+	/*vector<vector<double>> eT(w.size(), vector<double>(size));
 
 	for (int i = 0; i < size; i++)
 	{
@@ -109,7 +109,7 @@ void SoftmaxRegression::updateWeights(double leaningRate, int* index, int size, 
 		{
 			eT[j][i] = e[i][j];
 		}
-	}
+	}*/
 
 	vector<vector<double>> dW(w.size(), vector<double>(dimension));
 	vector<double> dBias(w.size());
@@ -122,14 +122,14 @@ void SoftmaxRegression::updateWeights(double leaningRate, int* index, int size, 
 			double res = 0;
 			for (int k = 0; k < size; k++)
 			{
-				res += xB[k][j] * eT[i][k];
+				res += xB[k][j] * e[k][i];//eT[i][k];
 			}
-			dW[i][j] = res + eT[i][(long long)size - 1];
+			dW[i][j] = res; //+ e[(long long)size - 1][i];//eT[i][(long long)size - 1];
 
 			res = 0;
 			for (int k = 0; k < size; k++)
 			{
-				res += eT[i][k];
+				res += e[k][i];//eT[i][k];
 			}
 			dBias[i] = res;
 		}
