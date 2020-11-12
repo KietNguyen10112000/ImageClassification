@@ -158,6 +158,9 @@
     <ClInclude Include="AbstractVectorLayer.h" />
     <ClInclude Include="VectorLayerReLU.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="testSoftmax.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

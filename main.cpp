@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	ifstream f("D:\\Artificial Intelligence\\Dataset\\testSoftmax.txt");
+	ifstream f("testSoftmax.txt");
 	string line;
 	istringstream in(line);
 	
@@ -81,6 +81,7 @@ int main()
 				ct++;
 			}
 		}
+		cout << "k = " << k << "--> " << ct << endl;
 		if (ct > max)
 		{
 			max = ct;
