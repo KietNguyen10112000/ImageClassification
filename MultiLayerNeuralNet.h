@@ -22,6 +22,7 @@ private:
 	AbstractVectorLayer<T>* output = nullptr;
 
 	double leaningRate = 0;
+	vector<double> normDW;
 
 public:
 	/*
@@ -41,7 +42,8 @@ public:
 
 private:
 	void update(int* index, int size);
-	double softmax(int index, vector<double>& z);
+	void softmax();
+	bool hasEffect(double limit);
 
 public:
 	void fit(vector<vector<T>>& xTrain, vector<int>& yTrain, int nEps,
@@ -71,6 +73,8 @@ MultiLayerNeuralNet<T>::MultiLayerNeuralNet(int dimension, vector<int> layersDes
 
 	output = &layers[layers.size() - 1];
 
+	normDW = vector<double>(layersDescription.size());
+
 }
 
 template<typename T>
@@ -89,10 +93,7 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 			layers[j].forwardUpdate<double>(layers[j - 1].a);
 		}
 		//last forward update for output layer because we use softmax for last layer
-		for (int j = 0; j < output->z.size(); j++)
-		{
-			output->a[j] = softmax(j, output->z);
-		}
+		softmax();
 		
 		//start backward update from output layer
 		for (int j = 0; j < output->a.size(); j++)
@@ -115,7 +116,7 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 
 	//update weights
 	//first layer
-	
+	normDW[0] = 0;
 	for (int i = 0; i < layers[0].w.size(); i++)
 	{
 		for (int j = 0; j < layers[0].w[0].size(); j++)
@@ -126,6 +127,7 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 				res += (*xTrain)[index[k]][j] * eMat[0][k][i];
 			}
 			dW[i][j] = -res * leaningRate;
+			normDW[0] += dW[i][j] * dW[i][j];
 
 			res = 0;
 			for (int k = 0; k < size; k++)
@@ -141,7 +143,7 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 	//all layers behind
 	for (int q = 1; q < layers.size(); q++)
 	{
-
+		normDW[q] = 0;
 		for (int i = 0; i < layers[q].w.size(); i++)
 		{
 			//int y = 0;
@@ -153,6 +155,7 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 					res += aMat[(long long)q - 1][k][j] * eMat[q][k][i];
 				}
 				dW[i][j] = -res * leaningRate;
+				normDW[q] += dW[i][j] * dW[i][j];
 
 				res = 0;
 				for (int k = 0; k < size; k++)
@@ -170,9 +173,9 @@ void MultiLayerNeuralNet<T>::update(int* index, int size)
 }
 
 template<typename T>
-double MultiLayerNeuralNet<T>::softmax(int index, vector<double>& z)
+void MultiLayerNeuralNet<T>::softmax()
 {
-	int max = 0;
+	/*int max = 0;
 	for (int i = 0; i < z.size(); i++)
 	{
 		if (z[i] > z[max]) max = i;
@@ -182,7 +185,37 @@ double MultiLayerNeuralNet<T>::softmax(int index, vector<double>& z)
 	{
 		sum = sum + exp(z[i] - z[max]);
 	}
-	return exp(z[index] - z[max]) / sum;
+	return exp(z[index] - z[max]) / sum;*/
+	double max = 0;
+	double sum = 0;
+	for (int j = 0; j < output->z.size(); j++)
+	{
+		if (max < output->z[j]) max = output->z[j];
+	}
+
+	for (int i = 0; i < output->z.size(); i++)
+	{
+		sum += exp(output->z[i] - max);
+	}
+
+	for (int j = 0; j < output->z.size(); j++)
+	{
+		output->a[j] = exp(output->z[j] - max) / sum;
+	}
+}
+
+template<typename T>
+inline bool MultiLayerNeuralNet<T>::hasEffect(double limit)
+{
+	double max = 0;
+	for (int i = 0; i < normDW.size(); i++)
+	{
+		if (max < normDW[i]) max = normDW[i];
+	}
+
+	if (sqrt(max) >= limit) return true;
+
+	return false;
 }
 
 template<typename T>
@@ -204,11 +237,16 @@ void MultiLayerNeuralNet<T>::fit(vector<vector<T>>& xTrain, vector<int>& yTrain,
 	}
 
 	vector<int> index(batchSize);
-
+	//index[0] = 0;
 	for (int i = 0; i < nEps; i++)
 	{
 		Calculator::shuffle(&index[0], index.size(), xTrain.size());
+		//index[0] = (index[0] + 1) % yTrain.size();
 		update(&index[0], index.size());
+		if (!hasEffect(limit))
+		{
+			break;
+		}
 	}
 
 }
@@ -222,10 +260,7 @@ int MultiLayerNeuralNet<T>::predict(vector<T>& x)
 		layers[j].forwardUpdate<double>(layers[j - 1].a);
 	}
 
-	for (int j = 0; j < output->z.size(); j++)
-	{
-		output->a[j] = softmax(j, output->z);
-	}
+	softmax();
 
 	int max = 0;
 	for (int i = 0; i < output->a.size(); i++)

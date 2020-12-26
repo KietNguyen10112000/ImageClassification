@@ -149,13 +149,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BotGetImg.cpp" />
+    <ClCompile Include="BotGetImg2.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Calculator.h" />
+    <ClInclude Include="ConvLayer.h" />
+    <ClInclude Include="ConvNeuralNet.h" />
+    <ClInclude Include="CropImage.h" />
     <ClInclude Include="MultiLayerNeuralNet.h" />
     <ClInclude Include="SoftmaxRegression.h" />
     <ClInclude Include="AbstractVectorLayer.h" />
+    <ClInclude Include="stb_image.h" />
     <ClInclude Include="VectorLayerReLU.h" />
   </ItemGroup>
   <ItemGroup>

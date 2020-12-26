@@ -19,12 +19,21 @@
     <Filter Include="Source Files\ClassificationAlgorithm\MLNN">
       <UniqueIdentifier>{e2ac8e62-42ab-4c6d-9b3e-6e2986900983}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ClassificationAlgorithm\CNN">
+      <UniqueIdentifier>{2794eb21-e6bc-4e99-b6e1-712fe9e067ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BotGetImg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BotGetImg2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,6 +51,18 @@
       <Filter>Source Files\ClassificationAlgorithm\MLNN</Filter>
     </ClInclude>
     <ClInclude Include="Calculator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvLayer.h">
+      <Filter>Source Files\ClassificationAlgorithm\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="ConvNeuralNet.h">
+      <Filter>Source Files\ClassificationAlgorithm\CNN</Filter>
+    </ClInclude>
+    <ClInclude Include="CropImage.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

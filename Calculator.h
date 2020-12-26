@@ -1,5 +1,8 @@
 #pragma once
 #include <algorithm> 
+#include <queue>
+
+#define randomInt(min, max) (rand() % (max - min + 1) + min)
 
 using namespace std;
 
@@ -113,8 +116,30 @@ void Calculator::transposeMatrix(T** mt, int row, int col, P** outMtResult)
 }
 void Calculator::shuffle(int* index, int size, int range)
 {
-	for (int i = 0; i < size; i++)
+	vector<int> q;
+
+	index[0] = rand() % range;
+	q.push_back(index[0]);
+	int block = 0;
+	
+	for (int i = 1; i < size; i++)
 	{
-		index[i] = rand() % range;
+		sort(q.begin(), q.end(), less<int>());
+		block = randomInt(0, i);
+		if (block == i)
+		{
+			index[i] = randomInt(q[block - 1], range - 1);
+		}
+		else if (block == 0)
+		{
+			index[i] = randomInt(0, q[0]);
+		}
+		else
+		{
+			index[i] = randomInt(q[block - 1], q[block]);
+		}
+		q.push_back(index[i]);
 	}
+	
+	
 }
